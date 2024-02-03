@@ -8,7 +8,8 @@ import {
 } from 'firebase/firestore'
 
 import {
-  getAuth
+  getAuth,
+  createUserWithEmailAndPassword
 } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -94,4 +95,22 @@ updateForm.addEventListener('submit', (e) => {
     updateForm.reset()
   })
 
+})
+
+// signing users
+const signupForm = document.querySelector('.signup')
+signupForm.addEventListener('submit', (e) => {
+  e.preventDefault()
+
+  const email = signupForm.email.value
+  const password = signupForm.password.value
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((cred) => {
+      console.log('use created: ', cred.user)
+      signupForm.reset()
+    })
+    .catch((err) => {
+      console.log(err.message)
+    })
 })
