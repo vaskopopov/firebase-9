@@ -38,7 +38,7 @@ const firebaseConfig = {
 
 
   // real time  collection data
-  onSnapshot(q, (snapshot) => {
+  const unsubCol = onSnapshot(q, (snapshot) => {
     let books = []
     snapshot.docs.forEach((doc) => {
       books.push({ ...doc.data(), id: doc.id})
@@ -79,7 +79,7 @@ const firebaseConfig = {
 // get a single document
 const docRef = doc(db, 'books', 'RTBjFuNKpwOBaEbOfBrr')
 
-onSnapshot(docRef, (doc) => {
+const unsubDoc = onSnapshot(docRef, (doc) => {
   console.log(doc.data(), doc.id)
 })
 
@@ -146,6 +146,15 @@ loginForm.addEventListener('submit', (e) => {
 })
 
 // subscribing to aith changes
-onAuthStateChanged(auth, (user) => {
+const unsubAuth = onAuthStateChanged(auth, (user) => {
   console.log('User status changed: ', user)
+})
+
+// unsubscribing from changes (auth & db)
+const unsubButton = document.querySelector('.unsub')
+unsubButton.addEventListener('click', () => {
+  console.log('unsubscribing')
+  unsubCol()
+  unsubDoc()
+  unsubAuth()
 })
