@@ -10,7 +10,8 @@ import {
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signOut, signInWithEmailAndPassword
+  signOut, signInWithEmailAndPassword,
+  onAuthStateChanged
 } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -121,10 +122,10 @@ const logoutButton = document.querySelector('.logout')
 logoutButton.addEventListener('click', () => {
   signOut(auth)
     .then(() => {
-      console.log('The user signed out')
+      // console.log('The user signed out')
     })
     .catch((err) => {
-      console.log(err.message)
+      // console.log(err.message)
     })
 })
 
@@ -137,9 +138,14 @@ loginForm.addEventListener('submit', (e) => {
 
   signInWithEmailAndPassword(auth, email, password)
     .then((cred) => {
-      console.log('User logged in: ', cred.user)
+      // console.log('User logged in: ', cred.user)
     })
     .catch((err) => {
       console.log(err.message)
     })
+})
+
+// subscribing to aith changes
+onAuthStateChanged(auth, (user) => {
+  console.log('User status changed: ', user)
 })
